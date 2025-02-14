@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine's Proposal 💖</title>
+    <style>
+        body {
+            background: #ffefff;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .heart-animation {
+            animation: heartbeat 1.2s infinite;
+            font-size: 3em;
+            color: #ff69b4;
+            margin-top: 20px;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(0.9); }
+        }
+
+        .proposal-box {
+            border: 3px solid #ff69b4;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        #finalMessage {
+            display: none;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        #anniversary-box {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #anniversary-box input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="background-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-touch-875.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control -->
+    <div id="music-control" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="heart-animation">💖💖💖</div>
+    
+    <div class="proposal-box">
+        <h2>Will you be my Valentine?</h2>
+        <button id="yes-button" onclick="handleResponse('yes')">YES! 💝</button>
+        <button id="no-button" onclick="handleResponse('no')">Maybe Later 😢</button>
+    </div>
+
+    <div id="anniversary-box">
+        <h3>What's our anniversary date? (DD MMMM YYYY)</h3>
+        <input type="text" id="anniversary-input" placeholder="e.g., 13 August 2020">
+        <button onclick="checkAnniversary()">Submit</button>
+    </div>
+
+    <div id="finalMessage">
+        <h3>You've made me the happiest! 🌹</h3>
+        <p>💍 I promise to marry you by 2029. It's my dream and my promise! 💍</p>
+        <p>Happy Valentine's Day, my love! 💖</p>
+        <div class="heart-animation">💖💖💖</div>
+    </div>
+
+    <script>
+        const pleas = [
+            "Pretty please with a cherry on top? 🍒",
+            "I'll give you infinite cuddles! 🤗",
+            "I'll be your personal cupcake chef!  ",
+            "I'll serenade you every day! 🎤",
+            "I'll be your forever warm hug! 🤗"
+        ];
+
+        let noButtonClicks = 0;
+        const noButton = document.getElementById('no-button');
+        const anniversaryBox = document.getElementById('anniversary-box');
+        const finalMessage = document.getElementById('finalMessage');
+
+        // Get audio element
+        const backgroundMusic = document.getElementById('background-music');
+        const musicIcon = document.getElementById('music-icon');
+
+        // Start music automatically (muted to comply with autoplay policies)
+        backgroundMusic.muted = true;
+        backgroundMusic.play();
+        backgroundMusic.muted = false;
+
+        function handleResponse(answer) {
+            if (answer === 'yes') {
+                document.querySelector('.proposal-box').style.display = 'none';
+                anniversaryBox.style.display = 'block';
+            } else {
+                noButtonClicks++;
+                if (noButtonClicks >= 5) {
+                    alert("You've run out of chances! You HAVE to say YES! 💖");
+                    handleResponse('yes');
+                    return;
+                }
+                const randomPlea = pleas[Math.floor(Math.random() * pleas.length)];
+                alert(randomPlea);
+                // Shrink the "No" button
+                const currentSize = parseFloat(window.getComputedStyle(noButton).fontSize);
+                noButton.style.fontSize = `${currentSize * 0.8}px`;
+            }
+        }
+
+        function checkAnniversary() {
+            const input = document.getElementById('anniversary-input').value.trim();
+            if (input.toLowerCase() === '13 august 2020') {
+                anniversaryBox.style.display = 'none';
+                finalMessage.style.display = 'block';
+            } else {
+                alert("Wrong answer! Try again, my love! 💖");
+            }
+        }
+
+        function toggleMusic() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                musicIcon.textContent = '🎵';
+            } else {
+                backgroundMusic.pause();
+                musicIcon.textContent = '🔇';
+            }
+        }
+    </script>
+</body>
+</html>
